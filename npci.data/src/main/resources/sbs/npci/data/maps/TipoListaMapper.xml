@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.TipoListaMapper">
+
+	<resultMap type="java.lang.String" id="AnioResultMap"> 
+		  <result property="" column="ANIO"/> 
+	</resultMap>
+	
+	<resultMap id="BaseResultMapClaveValor" type="sbs.npci.domain.entity.ClaveValor">
+	    <id column="COD_LISTA" jdbcType="VARCHAR" property="clave" />
+	    <result column="VALOR_0" jdbcType="VARCHAR" property="valor" />
+	    <result column="VALOR_1" jdbcType="VARCHAR" property="valor1" />
+	  </resultMap>
+
+
+	<select id="obtenerAniosHist" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+  		{ call Pkg_Npci_Mantenimiento.Pr_Get_Anios(
+		  	#{list,mode=OUT,jdbcType=CURSOR,resultMap=AnioResultMap}
+		  )
+		}
+  	</select>
+  	
+  	<select id="selectListClaveValor" statementType="CALLABLE"
+		parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{ 
+			call Pkg_Npci_Mantenimiento.Pr_TipoLista_List(
+				#{key,jdbcType=VARCHAR},
+				#{list,mode=OUT,jdbcType=CURSOR,resultMap=BaseResultMapClaveValor}
+			) 
+		}
+	</select>
+  
+</mapper>
