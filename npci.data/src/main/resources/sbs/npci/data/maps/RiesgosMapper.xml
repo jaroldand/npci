@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="RiesgoResultMap" type="sbs.npci.domain.entity.Riesgo">	
+		<id column="ID_RIESGOS" jdbcType="NUMERIC" property="idRiesgos" />
+		<result column="ID_INFORME_DET" jdbcType="NUMERIC" property="idInformeDet" />
+		<result column="TIPO_RIESGOS" jdbcType="VARCHAR" property="tipoRiesgos" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_Riesgos_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=RiesgoResultMap}
+		  )
+		}
+    </select>
+    
+    <select id="selectList" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_ListRiesgos_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=RiesgoResultMap}
+		  )
+		}
+    </select>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_Riesgos_Insert(
+		 	  #{entity.idRiesgos,jdbcType=NUMERIC},
+		      #{entity.idInformeDet,jdbcType=NUMERIC},
+		      #{entity.tipoRiesgos,jdbcType=VARCHAR},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_RIESGOS.NEXTVAL FROM dual			
+	</select>
+		
+</mapper>

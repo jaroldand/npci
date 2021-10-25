@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="CondMercResultMap" type="sbs.npci.domain.entity.ConductaMercado">	
+		<id column="ID_COND_MERC" jdbcType="NUMERIC" property="idCondMerc" />
+		<result column="ID_INFORME_DET" jdbcType="NUMERIC" property="idInformeDet" />
+		<result column="DEB_INDENT" jdbcType="VARCHAR" property="debIndent" />
+	    <result column="RUBRO" jdbcType="VARCHAR" property="rubro" />
+	    <result column="RELEVANTE" jdbcType="VARCHAR" property="relevante" />
+	    <result column="MEDIDAS" jdbcType="VARCHAR" property="medidas" />
+	    <result column="CONTROLES" jdbcType="VARCHAR" property="controles" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_CondMerc_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=CondMercResultMap}
+		  )
+		}
+    </select>
+    
+    <select id="selectList" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_ListCondMerc_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=CondMercResultMap}
+		  )
+		}
+    </select>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_CondMerc_Insert(
+		 	  #{entity.idCondMerc,jdbcType=NUMERIC},
+		      #{entity.idInformeDet,jdbcType=NUMERIC},
+		      #{entity.debIndent,jdbcType=VARCHAR},
+		      #{entity.rubro,jdbcType=VARCHAR},
+		      #{entity.relevante,jdbcType=VARCHAR},
+		      #{entity.medidas,jdbcType=VARCHAR},
+		      #{entity.controles,jdbcType=VARCHAR},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_COND_MERC.NEXTVAL FROM dual			
+	</select>
+		
+</mapper>

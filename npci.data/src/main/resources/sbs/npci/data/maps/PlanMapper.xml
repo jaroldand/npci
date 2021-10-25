@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="PlanResultMap" type="sbs.npci.domain.entity.Plan">	
+		<id column="ID_PLAN" jdbcType="NUMERIC" property="idPlan" />
+		<result column="ID_GEST_PROD" jdbcType="NUMERIC" property="idGestProd" />
+		<result column="NOMB_PLAN" jdbcType="VARCHAR" property="nombPlan" />
+	    <result column="DET_PLAN" jdbcType="VARCHAR" property="detPlan" />
+	    <result column="AREA_RESP" jdbcType="VARCHAR" property="areaResp" />
+	    <result column="FEC_IMPLEM" jdbcType="TIMESTAMP" property="fecImplem" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_Plan_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=PlanResultMap}
+		  )
+		}
+    </select>
+    
+    <select id="obtenerCodigosPlan" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_CodPlan_ByGestProd(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=String}
+		  )
+		}
+    </select>
+    
+    
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_Plan_Insert(
+		 	  #{entity.idPlan,jdbcType=NUMERIC},
+		      #{entity.idGestProd,jdbcType=NUMERIC},
+		      #{entity.nombPlan,jdbcType=VARCHAR},
+		      #{entity.detPlan,jdbcType=VARCHAR},
+		      #{entity.areaResp,jdbcType=VARCHAR},
+		      #{entity.fecImplem,jdbcType=TIMESTAMP},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_PLAN.NEXTVAL FROM dual			
+	</select>
+		
+</mapper>

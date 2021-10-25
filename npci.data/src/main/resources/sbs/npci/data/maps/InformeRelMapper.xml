@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="InformeRelResultMap" type="sbs.npci.domain.entity.InformeRel">	
+		<id column="ID_INFORME" jdbcType="NUMERIC" property="idInformeRel.idInforme" />
+		<id column="ID_INFORME_DET" jdbcType="NUMERIC" property="idInformeRel.idInformeDet" />
+		<result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectList" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_InformeRel_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=InformeRelResultMap}
+		  )
+		}
+    </select>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_InformeRel_Insert(
+		 	  #{entity.idInforme,jdbcType=NUMERIC},
+		      #{entity.idInformeDet,jdbcType=NUMERIC},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+		
+</mapper>

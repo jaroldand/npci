@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="InformeDetResultMap" type="sbs.npci.domain.entity.InformeDet">	
+		<id column="ID_INFORME_DET" jdbcType="NUMERIC" property="idInformeDet" />
+		<result column="ID_INFORME" jdbcType="NUMERIC" property="idInforme" />
+	    <result column="TIPO_INFORME" jdbcType="VARCHAR" property="tipoInforme" />
+	    <result column="NOMBRE_NPCI" jdbcType="VARCHAR" property="nombreNpci" />
+	    <result column="ANTECEDENTES" jdbcType="VARCHAR" property="antecendentes" />
+	    <result column="DESCRIPCION" jdbcType="VARCHAR" property="descripcion" />
+	    <result column="DESCRIPCION_SOP" jdbcType="VARCHAR" property="descripcionSop" />
+	    <result column="FEC_LANZ_IMPL" jdbcType="TIMESTAMP" property="fecLanzImpl" />
+	    <result column="APROB_INFORME" jdbcType="VARCHAR" property="aprobInforme" />
+	    <result column="FEC_APROB" jdbcType="TIMESTAMP" property="fecAprob" />
+	    <result column="COMENT_ADIC" jdbcType="VARCHAR" property="comentAdic" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_InformeDet_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=InformeDetResultMap}
+		  )
+		}
+    </select>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_InformeDet_Insert(
+		 	  #{entity.idInformeDet,jdbcType=NUMERIC},
+		      #{entity.idInforme,jdbcType=NUMERIC},
+		      #{entity.tipoInforme,jdbcType=VARCHAR},
+		      #{entity.nombreNpci,jdbcType=VARCHAR},
+		      #{entity.antecendentes,jdbcType=VARCHAR},
+		      #{entity.descripcion,jdbcType=VARCHAR},
+		      #{entity.descripcionSop,jdbcType=VARCHAR},
+		      #{entity.fecLanzImpl,jdbcType=TIMESTAMP},
+		      #{entity.aprobInforme,jdbcType=VARCHAR},
+		      #{entity.fecAprob,jdbcType=TIMESTAMP},
+		      #{entity.comentAdic,jdbcType=VARCHAR},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_INFORME_DET.NEXTVAL FROM dual			
+	</select>
+	
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="ControlResultMap" type="sbs.npci.domain.entity.Control">	
+		<id column="ID_CONTROL" jdbcType="NUMERIC" property="idControl" />
+		<result column="ID_GEST_PROD" jdbcType="NUMERIC" property="idGestProd" />
+		<result column="NOMB_CONTROL" jdbcType="VARCHAR" property="nombControl" />
+	    <result column="DET_CONTROL" jdbcType="VARCHAR" property="detControl" />
+	    <result column="NIVEL_EFECT" jdbcType="VARCHAR" property="nivelEfect" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_Control_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=ControlResultMap}
+		  )
+		}
+    </select>
+    
+    <select id="obtenerCodigosControl" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_CodControl_ByGestProd(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=String}
+		  )
+		}
+    </select>
+    
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_Control_Insert(
+		 	  #{entity.idControl,jdbcType=NUMERIC},
+		      #{entity.idGestProd,jdbcType=NUMERIC},
+		      #{entity.nombControl,jdbcType=VARCHAR},
+		      #{entity.detControl,jdbcType=VARCHAR},
+		      #{entity.nivelEfect,jdbcType=VARCHAR},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_CONTROL.NEXTVAL FROM dual			
+	</select>
+		
+</mapper>

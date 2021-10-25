@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sbs.npci.data.InformeMapper">
+
+	<resultMap id="InformeResultMap" type="sbs.npci.domain.entity.Informe">
+		<id column="ID_INFORME" jdbcType="NUMERIC" property="idInforme" />
+	    <result column="COD_ENT_VIGILADA" jdbcType="VARCHAR" property="codEntVigilada" />
+	    <result column="COD_EXPEDIENTE" jdbcType="VARCHAR" property="codExpediente" />
+	    <result column="ID_ESTADO" jdbcType="VARCHAR" property="idEstado" />
+	    <result column="NIVEL" jdbcType="VARCHAR" property="nivel" />
+	    <result column="IND_ACTIVO" jdbcType="NUMERIC" property="indActivo" />
+	    <result column="AUDIT_USER_CREA" jdbcType="VARCHAR" property="auditUserCrea" />
+	    <result column="AUDIT_FEC_CREA" jdbcType="TIMESTAMP" property="auditFecCrea" />
+	    <result column="AUDIT_USER_MOD" jdbcType="VARCHAR" property="auditUserMod" />
+	    <result column="AUDIT_FEC_MOD" jdbcType="TIMESTAMP" property="auditFecMod" />
+	</resultMap>
+	
+	<resultMap id="BandejaResponse" type="sbs.npci.domain.entity.dto.BandejaInformeDTO">
+		<result property="idInforme" column="ID_INFORME" />
+		<result property="codExpediente" column="COD_EXPEDIENTE" />
+		<result property="tipoInforme" column="TIPO_INFORME" />
+		<result property="nombreNpci" column="NOMBRE_NPCI" />
+		<result property="fechaLanzImpl" column="FEC_LANZ_IMPL" />
+		<result property="fechaEnvio" column="FEC_ENVIO" />
+		<result property="idEstado" column="ID_ESTADO" />
+		<result property="descEstado" column="DESC_ESTADO" />  
+		<result property="isEditar" column="EDITAR" />
+		<result property="isEliminar" column="ELIMINAR" />
+	</resultMap>
+	
+	<select id="obtenerInformes" statementType="CALLABLE" parameterType="sbs.siris.domain.entity.base.BaseParam">
+  		{ call Pkg_Siris_Evento_Reporte.Pr_Obtener_Informes(
+			#{key,jdbcType=VARCHAR,mode=IN},
+		  	#{list,mode=OUT,jdbcType=CURSOR,resultMap=BandejaResponse}
+		  )
+		}
+  	</select>
+  	
+  	<select id="obtenerInformesHist" statementType="CALLABLE" parameterType="sbs.siris.domain.entity.base.BaseParam">
+  		{ call Pkg_Siris_Evento_Reporte.Pr_Obtener_Informes_Hist(
+			#{key,jdbcType=VARCHAR,mode=IN},
+			#{keyMap.Anio,jdbcType=VARCHAR},
+		  	#{keyMap.Mes,jdbcType=VARCHAR},
+		  	#{list,mode=OUT,jdbcType=CURSOR,resultMap=BandejaResponse}
+		  )
+		}
+  	</select>
+	
+	<select id="selectByPrimaryKey" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		  call Pkg_Npci_Mantenimiento.Pr_Informe_GetKey(
+			#{key,jdbcType=NUMERIC},
+			#{list,mode=OUT,jdbcType=CURSOR,resultMap=InformeResultMap}
+		  )
+		}
+    </select>
+	
+	<insert id="insert" statementType="CALLABLE" parameterType="sbs.npci.domain.entity.base.BaseParam">
+		{
+		 call Pkg_Npci_Mantenimiento.Pr_Informe_Insert(
+		      #{entity.idInforme,jdbcType=NUMERIC},
+		      #{entity.codEntVigilada,jdbcType=VARCHAR},
+		      #{entity.codExpediente,jdbcType=VARCHAR},
+		      #{entity.idEstado,jdbcType=VARCHAR},
+		      #{entity.nivel,jdbcType=VARCHAR},
+		      #{entity.indActivo,jdbcType=NUMERIC},
+		      
+		      #{entity.auditUserCrea,jdbcType=VARCHAR},
+		      #{entity.auditFecCrea,jdbcType=TIMESTAMP},
+		      #{entity.auditUserMod,jdbcType=VARCHAR},
+		      #{entity.auditFecMod,jdbcType=TIMESTAMP}
+		 )
+		}
+	</insert>
+	
+	<select id="getSequenceLong" resultType="java.lang.Long">
+		SELECT SEQ_ID_INFORME.NEXTVAL FROM dual			
+	</select>
+	
+</mapper>

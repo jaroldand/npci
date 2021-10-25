@@ -6,7 +6,8 @@ public class TipoValor {
 
 	private static final String TIPO_PROPERTY = "tipos.properties";
 
-	public static final String SIRIS_EVENTO_ID_ESTADO_BORRADOR = Setup.getValueKey(TIPO_PROPERTY, "siris_evento.id_estado.borrador");
+	//public static final String SIRIS_EVENTO_ID_ESTADO_BORRADOR = Setup.getValueKey(TIPO_PROPERTY, "siris_evento.id_estado.borrador");
+	public static final String NPCI_ID_INFORME_ESTADO_BORRADOR = Setup.getValueKey(TIPO_PROPERTY, "npci_evento.id_estado.borrador");
 	
 	public static final String SIRIS_VALIDACION_TIPO_VALIDACION_CHECKA = Setup.getValueKey(TIPO_PROPERTY, "siris_validacion.tipo_validacion.checkA");
 	public static final String SIRIS_VALIDACION_TIPO_VALIDACION_CHECKB = Setup.getValueKey(TIPO_PROPERTY, "siris_validacion.tipo_validacion.checkB");
